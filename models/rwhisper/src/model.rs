@@ -177,7 +177,7 @@ impl WhisperInner {
             &mel,
             pcm_data.len(),
             Task {
-                task_type: TaskType::Unset,
+                task_type: TaskType::Transcribe,
                 word_level_time_stamps,
                 without_timestamps: true,
             },

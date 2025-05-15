@@ -17,14 +17,17 @@ pub enum WhisperSource {
     Base,
     /// The base model with only English support.
     BaseEn,
+    FasterBase,
     /// The small model.
     Small,
     /// The small model with only English support.
     SmallEn,
+    FasterSmall,
     /// The medium model.
     Medium,
     /// The medium model with only English support.
     MediumEn,
+    FasterMedium,
     /// The medium model with only English support quantized to run faster.
     QuantizedDistilMediumEn,
     /// The large model.
@@ -51,8 +54,11 @@ impl WhisperSource {
             Self::QuantizedTiny
             | Self::Tiny
             | Self::Base
+            | Self::FasterBase
             | Self::Small
+            | Self::FasterSmall
             | Self::Medium
+            | Self::FasterMedium
             | Self::Large
             | Self::LargeV2
             | Self::DistilLargeV2
@@ -89,10 +95,13 @@ impl WhisperSource {
             Self::QuantizedTinyEn => ("lmz/candle-whisper", "main"),
             Self::Base => ("openai/whisper-base", "main"),
             Self::BaseEn => ("openai/whisper-base.en", "main"),
+            Self::FasterBase => ("Systran/faster-whisper-base", "main"),
             Self::Small => ("openai/whisper-small", "main"),
             Self::SmallEn => ("openai/whisper-small.en", "main"),
+            Self::FasterSmall => ("Systran/faster-whisper-small", "main"),
             Self::Medium => ("openai/whisper-medium", "main"),
             Self::MediumEn => ("openai/whisper-medium.en", "main"),
+            Self::FasterMedium => ("Systran/faster-whisper-medium", "main"),
             Self::Large => ("openai/whisper-large", "main"),
             Self::LargeV2 => ("openai/whisper-large-v2", "main"),
             Self::DistilMediumEn => ("distil-whisper/distil-medium.en", "main"),
@@ -137,6 +146,16 @@ impl WhisperSource {
                 [5, 6],
             ]),
             Self::BaseEn => Some(&[[3, 3], [4, 7], [5, 1], [5, 5], [5, 7]]),
+            Self::FasterBase => Some(&[
+                [3, 1],
+                [4, 2],
+                [4, 3],
+                [4, 7],
+                [5, 1],
+                [5, 2],
+                [5, 4],
+                [5, 6],
+            ]),
             Self::Small => Some(&[
                 [5, 3],
                 [5, 9],
@@ -170,6 +189,18 @@ impl WhisperSource {
                 [11, 2],
                 [11, 4],
             ]),
+            Self::FasterSmall => Some(&[
+                [5, 3],
+                [5, 9],
+                [8, 0],
+                [8, 4],
+                [8, 7],
+                [8, 8],
+                [9, 0],
+                [9, 7],
+                [9, 9],
+                [10, 5],
+            ]),
             Self::Medium => Some(&[[13, 15], [15, 4], [15, 15], [16, 1], [20, 0], [23, 4]]),
             Self::MediumEn => Some(&[
                 [11, 4],
@@ -191,6 +222,7 @@ impl WhisperSource {
                 [20, 14],
                 [21, 12],
             ]),
+            Self::FasterMedium => Some(&[[13, 15], [15, 4], [15, 15], [16, 1], [20, 0], [23, 4]]),
             Self::Large => Some(&[
                 [9, 19],
                 [11, 2],
@@ -301,10 +333,13 @@ impl Display for WhisperSource {
             Self::QuantizedTinyEn => write!(f, "quantized_tiny_en"),
             Self::Base => write!(f, "base"),
             Self::BaseEn => write!(f, "base_en"),
+            Self::FasterBase => write!(f, "faster_base"),
             Self::Small => write!(f, "small"),
             Self::SmallEn => write!(f, "small_en"),
+            Self::FasterSmall => write!(f, "faster_small"),
             Self::Medium => write!(f, "medium"),
             Self::MediumEn => write!(f, "medium_en"),
+            Self::FasterMedium => write!(f, "faster_medium"),
             Self::Large => write!(f, "large"),
             Self::LargeV2 => write!(f, "large_v2"),
             Self::DistilMediumEn => write!(f, "distil_medium_en"),

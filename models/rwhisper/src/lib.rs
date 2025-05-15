@@ -439,22 +439,44 @@ impl WhisperBuilder {
                 _ => unreachable!(),
             }
         } else {
-            let model = FileSource::huggingface(
-                model_id.to_owned(),
-                revision.to_owned(),
-                "model.safetensors".to_owned(),
-            );
-            let tokenizer = FileSource::huggingface(
-                model_id.to_owned(),
-                revision.to_owned(),
-                "tokenizer.json".to_owned(),
-            );
-            let config = FileSource::huggingface(
-                model_id.to_owned(),
-                revision.to_owned(),
-                "config.json".to_owned(),
-            );
-            WhisperModelConfig::new(model, tokenizer, config)
+            match self.model {
+                WhisperSource::FasterBase | WhisperSource::FasterSmall | WhisperSource::FasterMedium => {
+                    let model = FileSource::huggingface(
+                        model_id.to_owned(),
+                        revision.to_owned(),
+                        "model.bin".to_owned(),
+                    );
+                    let tokenizer = FileSource::huggingface(
+                        model_id.to_owned(),
+                        revision.to_owned(),
+                        "tokenizer.json".to_owned(),
+                    );
+                    let config = FileSource::huggingface(
+                        model_id.to_owned(),
+                        revision.to_owned(),
+                        "config.json".to_owned(),
+                    );
+                    WhisperModelConfig::new(model, tokenizer, config)
+                },
+                _ => {
+                    let model = FileSource::huggingface(
+                        model_id.to_owned(),
+                        revision.to_owned(),
+                        "model.safetensors".to_owned(),
+                    );
+                    let tokenizer = FileSource::huggingface(
+                        model_id.to_owned(),
+                        revision.to_owned(),
+                        "tokenizer.json".to_owned(),
+                    );
+                    let config = FileSource::huggingface(
+                        model_id.to_owned(),
+                        revision.to_owned(),
+                        "config.json".to_owned(),
+                    );
+                    WhisperModelConfig::new(model, tokenizer, config)
+                }
+            }
         }
     }
 
